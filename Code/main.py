@@ -10,7 +10,7 @@ import yfinance as yf
 #stock = yf.Ticker(symbol)
 #print(stock.info)
 
-symbols = pd.read_csv(r'C:\Users\Kevin Tang\Desktop\SoftwareProjects\algorithmic-trading-python\Data\sp_500_stocks.csv')
+symbols = pd.read_csv(r'C:\Users\Kevin Tang\Desktop\SoftwareProjects\algo_trading\Data\sp_500_stocks.csv')
 
 # Parse API Call
 
