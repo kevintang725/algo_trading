@@ -13,9 +13,15 @@ def main():
 
     # Parse API Call
     df = my_finance_func.parse_api_data(symbols)
+    
+    # Calculate percentiles and fill in to metrics table
+    df = my_finance_func.calculate_value_percentiles(df)
+    
+    # Calculate RV score and fill
+    df = my_finance_func.calculate_rv_score(df)
 
     # Calculate number of shares to buy
-    df = my_finance_func.calculate_number_of_shares_to_buy(df)
+    #df = my_finance_func.calculate_number_of_shares_to_buy(df)
 
     # Export to excel file
     my_finance_func.export_to_excel(df)
