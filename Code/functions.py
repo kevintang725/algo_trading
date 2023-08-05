@@ -35,64 +35,68 @@ def parse_api_data(symbols):
     data_frame = pd.DataFrame(columns = column_names)
 
     # Iterative API Calls (Very Slow)
-    for symbol in symbols['Ticker'][:1]:
+    for symbol in symbols['Ticker'][:10]:
         stock = yf.Ticker(symbol) # Very slow HTTP Request
         
-        print(stock.info)
-        # Market Cap
-        market_cap = stock.info['marketCap']
+        #print(stock.info)
         
-        # Current Day Price Highs and Lows
-        current_price = stock.info['currentPrice']
-        previous_close = stock.info['previousClose']
-        market_open = stock.info['open']
-        day_low = stock.info['dayLow']
-        day_high = stock.info['dayHigh']
+        try:
+            # Market Cap
+            market_cap = stock.info['marketCap']
+            
+            # Current Day Price Highs and Lows
+            current_price = stock.info['currentPrice']
+            previous_close = stock.info['previousClose']
+            market_open = stock.info['open']
+            day_low = stock.info['dayLow']
+            day_high = stock.info['dayHigh']
+            
+            # Trading Volume
+            current_volume = stock.info['volume']
+            avg_volume = stock.info['averageVolume']
+            avg_volume_10days = stock.info['averageVolume10days']
+            
+            # Price History
+            fiftyTwoWeekLow = stock.info['fiftyTwoWeekLow']
+            fiftyTwoWeekHigh = stock.info['fiftyTwoWeekHigh']
+            fiftyDayAverage = stock.info['fiftyDayAverage']
+            twohundredDayAverage = stock.info['twoHundredDayAverage']
+            
+            # Outstanding Shares, Shorts, and Floats
+            sharesOutstanding = stock.info['sharesOutstanding']
+            sharesShort = stock.info['sharesShort']
+            sharesPercentSharesOut = stock.info['sharesPercentSharesOut']
+            sharesShortPriorMonth = stock.info['sharesShortPriorMonth']
+            shortRatio = stock.info['shortRatio']
+            sharesPercentOfFloat = stock.info['shortPercentOfFloat']
+            
+            # Earnings Per Share and Profit Margins
+            trailing_EPS = stock.info['trailingEps']
+            forward_EPS = stock.info['forwardEps']
         
-        # Trading Volume
-        current_volume = stock.info['volume']
-        avg_volume = stock.info['averageVolume']
-        avg_volume_10days = stock.info['averageVolume10days']
-        
-        # Price History
-        fiftyTwoWeekLow = stock.info['fiftyTwoWeekLow']
-        fiftyTwoWeekHigh = stock.info['fiftyTwoWeekHigh']
-        fiftyDayAverage = stock.info['fiftyDayAverage']
-        twohundredDayAverage = stock.info['twoHundredDayAverage']
-        
-        # Outstanding Shares, Shorts, and Floats
-        sharesOutstanding = stock.info['sharesOutstanding']
-        sharesShort = stock.info['sharesShort']
-        sharesPercentSharesOut = stock.info['sharesPercentSharesOut']
-        sharesShortPriorMonth = stock.info['sharesShortPriorMonth']
-        shortRatio = stock.info['shortRatio']
-        sharesPercentOfFloat = stock.info['shortPercentOfFloat']
-        
-        # Earnings Per Share and Profit Margins
-        trailing_EPS = stock.info['trailingEps']
-        forward_EPS = stock.info['forwardEps']
-    
-        # Dividend
-        dividend_yield = stock.info['dividendYield']
-        dividend_rate = stock.info['dividendRate']
-        
-        # Price-to-Earning Ratios
-        trailing_PE = stock.info['trailingPE']
-        forward_PE = stock.info['forwardPE']
-        
-        # Price-to-Book Ratios
-        priceToBook = stock.info['priceToBook']
-        bookValue = stock.info['bookValue']
-        
-        # Price-to-Sales Ratios
-        priceToSales12Months = stock.info['priceToSalesTrailing12Months']
-        
-        # Profit and Revnue Margins
-        grossProfits = stock.info['grossProfits']
-        grossMargins = stock.info['grossMargins']
-        profitMargins = stock.info['profitMargins']
-        enterpriseValue = stock.info['enterpriseValue']
-        ebidtdaMargins = stock.info['ebitdaMargins']
+            # Dividend
+            dividend_yield = stock.info['dividendYield']
+            dividend_rate = stock.info['dividendRate']
+            
+            # Price-to-Earning Ratios
+            trailing_PE = stock.info['trailingPE']
+            forward_PE = stock.info['forwardPE']
+            
+            # Price-to-Book Ratios
+            priceToBook = stock.info['priceToBook']
+            bookValue = stock.info['bookValue']
+            
+            # Price-to-Sales Ratios
+            priceToSales12Months = stock.info['priceToSalesTrailing12Months']
+            
+            # Profit and Revnue Margins
+            grossProfits = stock.info['grossProfits']
+            grossMargins = stock.info['grossMargins']
+            profitMargins = stock.info['profitMargins']
+            enterpriseValue = stock.info['enterpriseValue']
+            ebidtdaMargins = stock.info['ebitdaMargins']
+        except:
+            pass
         
         # Try to calculate Enterprise Value Ratios
         try:
