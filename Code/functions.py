@@ -35,7 +35,7 @@ def parse_api_data(symbols):
     data_frame = pd.DataFrame(columns = column_names)
 
     # Iterative API Calls (Very Slow)
-    for symbol in symbols['Ticker'][:10]:
+    for symbol in symbols['Ticker']:
         stock = yf.Ticker(symbol) # Very slow HTTP Request
         
         #print(stock.info)
@@ -103,11 +103,15 @@ def parse_api_data(symbols):
             ev_to_ebitda = enterpriseValue/ebidtdaMargins
         except TypeError:
             ev_to_ebitda = np.NaN
+        except ZeroDivisionError:
+            ev_to_ebita = np.inf
         
         try:
             ev_to_gross_profit = enterpriseValue/grossProfits
         except TypeError:
             ev_to_gross_profit = np.NaN
+        except ZeroDivisionError:
+            ev_to_ebita = np.inf
         
         # Append Data to Dataframe
         data_frame = data_frame.append(
@@ -194,9 +198,15 @@ def calculate_number_of_shares_to_buy(data_frame):
         
     position_size = val/len(data_frame.index)
     for i in range(0,len(data_frame.index)):
-        data_frame.loc[i, 'Number of Shares to Buy'] = math.floor(position_size/data_frame['Stock Price'][i])
+        data_frame.loc[i, 'Number of Shares to Buy'] = math.floor(position_size/data_frame['Current Price'][i])
     print(data_frame)
 
+    return data_frame
+
+def filter_best_value_stocks(data_frame, number_of_stocks_filter=50):
+    data_frame.sort_values(by = 'RV Score', inplace = True)
+    data_frame = data_frame[:number_of_stocks_filter]
+    data_frame.reset_index(drop = True, inplace = True)
     return data_frame
 
 def export_to_excel(data_frame):

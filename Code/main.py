@@ -19,9 +19,12 @@ def main():
     
     # Calculate RV score and fill
     df = my_finance_func.calculate_rv_score(df)
+    
+    # Filter Number of Stocks
+    df = my_finance_func.filter_best_value_stocks(df, 20)
 
     # Calculate number of shares to buy
-    #df = my_finance_func.calculate_number_of_shares_to_buy(df)
+    df = my_finance_func.calculate_number_of_shares_to_buy(df)
 
     # Export to excel file
     my_finance_func.export_to_excel(df)
